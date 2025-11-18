@@ -6,6 +6,7 @@ TagManager:
   tags:
   - help
   - entry
+  - entryList
   layers:
   - Default
   - TransparentFX

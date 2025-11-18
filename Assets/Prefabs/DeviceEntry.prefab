@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be901d330b8cb7d4b846bfd347e7fa69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameLbl: {fileID: 7448468240878828784}
   poseGroup: {fileID: 3635761802386378177}
   trackGroup1: {fileID: 5440480231837907441}
   trackGroup2: {fileID: 8904111039336734927}

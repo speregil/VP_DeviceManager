@@ -1,4 +1,5 @@
 using SentienceLab;
+using vp.deviceManager.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,20 @@ public class DebugInformation : MonoBehaviour
 	[TypeConstraint(typeof(IDeviceManager))]
 	public GameObject Device;
 
-	public TMP_Text   Text;
-	public float      SourceUpdateInterval = 1.0f;
-	public float      InformationUpdateInterval = 0.1f;
+	public TMP_Text		Text;
+    public float		SourceUpdateInterval = 1.0f;
+	public float		InformationUpdateInterval = 0.1f;
 
+    private UIBehaviour UIDeviceList;
 
-	public void Awake()
+    public void Awake()
 	{
 		if (Text == null)
 		{
 			Text = GetComponent<TMP_Text>();
 		}
-		
-		m_managers = new List<IDeviceManager>();
+
+        m_managers = new List<IDeviceManager>();
 		m_devices  = new List<IDevice>();
 	}
 	
@@ -41,7 +43,9 @@ public class DebugInformation : MonoBehaviour
 			StartCoroutine(GatherDeviceManagers());
 		}
 
-		StartCoroutine(UpdateInformation());
+        GameObject deviceListPanel = GameObject.FindWithTag("entryList");
+        UIDeviceList = deviceListPanel.GetComponent<UIBehaviour>();
+        StartCoroutine(UpdateInformation());
 	}
 
 
@@ -76,7 +80,12 @@ public class DebugInformation : MonoBehaviour
 			{
 				sb.Append(device.GetDeviceName()).Append(":").AppendLine();
 				device.GetDeviceInformation(sb, " - ");
-			}
+
+				if (!UIDeviceList.IsDeviceOnList(device.GetDeviceName()))
+				{
+					UIDeviceList.AddDevice(device.GetDeviceName());
+				}
+            }
 			Text.text = sb.ToString();
 		}
 	}
