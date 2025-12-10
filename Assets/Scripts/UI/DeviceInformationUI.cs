@@ -79,7 +79,7 @@ public class DebugInformation : MonoBehaviour
 			foreach (var device in m_devices)
 			{
 				sb.Append(device.GetDeviceName()).Append(":").AppendLine();
-				device.GetDeviceInformation(sb, " - ");
+				device.GetDeviceInformation(sb, " - ", UIDeviceList);
 
 				if (!UIDeviceList.IsDeviceOnList(device.GetDeviceName()))
 				{

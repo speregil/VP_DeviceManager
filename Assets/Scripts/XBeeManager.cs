@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Text;
 using UnityEngine;
+using vp.deviceManager.UI;
 using XBeeLibrary.Core;
 using XBeeLibrary.Core.Events;
 using XBeeLibrary.Core.IO;
@@ -211,7 +212,7 @@ public class XBeeManager : MonoBehaviour, IDeviceManager, IDevice
 	}
 
 
-	public void GetDeviceInformation(StringBuilder sb, string prefix)
+	public void GetDeviceInformation(StringBuilder sb, string prefix, UIBehaviour listener)
 	{
 		sb.Append(prefix).Append("Name: ").Append(m_coordinator.NodeID).AppendLine();
 		sb.Append(prefix).Append("COM Port: ").Append(COM_Port).AppendLine();
@@ -319,7 +320,7 @@ public class XBeeManager : MonoBehaviour, IDeviceManager, IDevice
 		}
 
 
-		public void GetDeviceInformation(StringBuilder sb, string prefix)
+		public void GetDeviceInformation(StringBuilder sb, string prefix, UIBehaviour listener)
 		{
 			foreach (var kv in m_oscVariables)
 			{
