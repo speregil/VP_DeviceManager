@@ -2,6 +2,7 @@
 using System.Text;
 using SentienceLab.OSC;
 using UnityEngine;
+using vp.deviceManager.UI;
 
 public class OSCDeviceInformationProvider : MonoBehaviour, IDeviceManager, IDevice
 {
@@ -29,18 +30,42 @@ public class OSCDeviceInformationProvider : MonoBehaviour, IDeviceManager, IDevi
 	}
 
 
-	public void GetDeviceInformation(StringBuilder sb, string prefix)
+	public void GetDeviceInformation(StringBuilder sb, string prefix, UIBehaviour listener)
 	{
 		foreach (var c in m_oscContainers)
 		{
 			foreach (var v in c.GetOSC_Variables())
 			{
 				sb.Append(prefix).Append(v.Name).Append(": ");
-				if      (v is OSC_BoolVariable     vb) { sb.Append(vb.Value ? "■" : "□"); }
-				else if (v is OSC_IntVariable      vi) { sb.Append(vi.Value); }
-				else if (v is OSC_FloatVariable    vf) { sb.Append(vf.Value); }
-				else if (v is OSC_StringVariable   vs) { sb.Append(vs.Value); }
-				else if (v is OSC_6DofPoseVariable v6) { sb.Append(string.Format("X:{0:F3}/Y:{1:F3}/Z:{2:F3}", v6.Position.x, v6.Position.y, v6.Position.z)); }
+				if      (v is OSC_BoolVariable     vb)
+				{ 
+					sb.Append(vb.Value ? "■" : "□");
+					listener.UpdateDeviceState(name,v.Name,vb.Value);
+				}
+				else if (v is OSC_IntVariable      vi)
+				{
+					sb.Append(vi.Value);
+					listener.UpdateDeviceInput(name, v.Name, vi.Value.ToString());
+				}
+				else if (v is OSC_FloatVariable    vf)
+				{
+					sb.Append(vf.Value);
+                    listener.UpdateDeviceInput(name, v.Name, vf.Value.ToString());
+                }
+				else if (v is OSC_StringVariable   vs)
+				{
+					sb.Append(vs.Value);
+                    listener.UpdateDeviceInput(name, v.Name, vs.Value);
+                }
+				else if (v is OSC_6DofPoseVariable v6)
+				{
+					sb.Append(string.Format("X:{0:F3}/Y:{1:F3}/Z:{2:F3}", v6.Position.x, v6.Position.y, v6.Position.z));
+					float[] pose = new float[3];
+					pose[0] = v6.Position.x;
+					pose[1] = v6.Position.y;
+					pose[2] = v6.Position.z;
+					listener.UpdateDevicePosition(name, v.Name, pose);
+				}
 				sb.AppendLine();
 			}
 		}

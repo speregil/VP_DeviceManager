@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System.Text;
+using vp.deviceManager.UI;
 
 public interface IDevice
 {
 	public string GetDeviceName();
-	public void   GetDeviceInformation(StringBuilder sb, string prefix);
+	public void   GetDeviceInformation(StringBuilder sb, string prefix, UIBehaviour listener);
 }
 
 public class IDeviceComparer : IComparer<IDevice>
