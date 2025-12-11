@@ -325,7 +325,8 @@ public class XBeeManager : MonoBehaviour, IDeviceManager, IDevice
 			foreach (var kv in m_oscVariables)
 			{
 				sb.Append(prefix).Append(kv.Key).Append(": ").Append(kv.Value.Value ? "■" : "□").AppendLine();
-			}
+                listener.UpdateDeviceState(m_device.NodeID, kv.Key, kv.Value.Value);
+            }
 		}
 
 		protected XBeeManager                          m_manager;

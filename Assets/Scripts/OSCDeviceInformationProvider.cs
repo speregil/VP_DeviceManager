@@ -71,6 +71,5 @@ public class OSCDeviceInformationProvider : MonoBehaviour, IDeviceManager, IDevi
 		}
 	}
 
-
 	protected IOSCVariableContainer[] m_oscContainers;
 }

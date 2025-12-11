@@ -7,7 +7,8 @@ namespace vp.deviceManager.UI
     {
         [SerializeField] private GameObject deviceEntry;
         [SerializeField] private GameObject deviceList;
-        
+        [SerializeField] private GameObject scrollView;
+
 
         private bool listCollapsed = false;
 
@@ -20,12 +21,21 @@ namespace vp.deviceManager.UI
 
         public void UpdateDevicePosition(string name, string variable, float[] pose)
         {
-            Debug.Log("Updating " + variable + " on " + name + " - " + pose);
+            EntryBehaviour entry = GetEntry(name);
+            if(entry != null)
+            {
+                entry.UpdatePose(pose);
+            }
         }
 
         public void UpdateDeviceState(string name, string variable, bool state)
         {
-            Debug.Log("Updating " + variable + "on " + name + " - " + state);
+            EntryBehaviour entry = GetEntry(name);
+            if (entry != null)
+            {
+                string[] variableParse = variable.Split("/");
+                entry.UpdateState(variableParse[2], state);
+            }
         }
 
         public void UpdateDeviceInput(string name, string variable, string input)
@@ -33,25 +43,22 @@ namespace vp.deviceManager.UI
             Debug.Log("Updating " + variable + "on " + name + " - " + input);
         }
 
-        public bool IsDeviceOnList(string name)
+        public EntryBehaviour GetEntry(string name)
         {
-            foreach(Transform entry in deviceList.transform)
+            foreach (Transform entry in deviceList.transform)
             {
                 EntryBehaviour entryBehaviour = entry.gameObject.GetComponent<EntryBehaviour>();
                 if (entryBehaviour != null && entryBehaviour.GetEntryName() == name)
                 {
-                    return true;
+                    return entryBehaviour;
                 }
             }
-            return false;
+            return null;
         }
 
         public void OnListCollapse()
         {
-            foreach (Transform entry in deviceList.transform)
-            {
-                entry.gameObject.SetActive(listCollapsed);
-            }
+            scrollView.SetActive(listCollapsed);
             listCollapsed = !listCollapsed;
         }
     }
