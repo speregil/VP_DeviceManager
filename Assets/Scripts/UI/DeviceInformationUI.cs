@@ -81,7 +81,7 @@ public class DebugInformation : MonoBehaviour
 				sb.Append(device.GetDeviceName()).Append(":").AppendLine();
 				device.GetDeviceInformation(sb, " - ", UIDeviceList);
 
-				if (!UIDeviceList.IsDeviceOnList(device.GetDeviceName()))
+				if (UIDeviceList.GetEntry(device.GetDeviceName()) == null)
 				{
 					UIDeviceList.AddDevice(device.GetDeviceName());
 				}
